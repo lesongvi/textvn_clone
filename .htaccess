@@ -1,3 +1,3 @@
 Options -Indexes
 RewriteEngine On
-RewriteRule ^([a-zA-Z0-9]+)$ index.html?tab=$1
+RewriteRule ^(.*)$ index.html?tab=$1

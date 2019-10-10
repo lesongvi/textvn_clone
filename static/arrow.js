@@ -38,6 +38,7 @@
                 var textvnApi = jQuery.parseJSON(data).response;
                 if (textvnApi.status == 'success'){
                     $(".textarea").val(textvnApi.message);
+                    $(".view_count").html(textvnApi.views);
                 } else {
                     alertify.confirm("Hiện tính năng này đang được phát triển, vui lòng quay lại sau.", function(){
                         window.location.href = window.location.protocol + '//' + window.location.hostname;

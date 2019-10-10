@@ -1,7 +1,7 @@
     var tabLink = window.location.pathname;
     var RQN9Api = 'YOUR RQN9 TOKEN'; //Create your RQN9 token: https://rqn9.com/developers
     var Webpagetitle = 'Source code'; //Your webpage title
-    document.title = window.location.hostname + ' / ' + window.location.pathname + ' | ' + Webpagetitle;
+    document.title = window.location.hostname + ' / ' + window.location.pathname.replace('/','') + ' | ' + Webpagetitle;
     function makeid(length = 8) {
        var result           = '';
        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -42,7 +42,7 @@
                     window.location.href = window.location.protocol + '//' + window.location.hostname;
                 }
             }).fail(function() {
-                alert('Vui lòng kiểm tra lại thông tin giá trị token RQN9Api trong tại đường dẫn /static/arrow.js');
+                alert('Vui lòng kiểm tra lại thông tin giá trị token RQN9Api trong tại đường dẫn /static/arrow.js.');
             });
         $('.textarea').keydown(function(){
                clearTimeout(timer); 

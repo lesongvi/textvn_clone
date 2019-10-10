@@ -1,5 +1,5 @@
     var tabLink = window.location.pathname;
-    var RQN9Api = '38b1c18f052c4878b6443a0fead0bd9e'; //Create your RQN9 token: https://rqn9.com/developers
+    var RQN9Api = 'YOUR RQN9 TOKEN'; //Create your RQN9 token: https://rqn9.com/developers
     var Webpagetitle = 'Source code'; //Your webpage title
     tokenUnderfined = 'Vui lòng kiểm tra lại thông tin giá trị token RQN9Api trong tại đường dẫn /static/arrow.js';
     somethingWrong = 'Đã có lỗi xảy ra, dữ liệu của bạn không được lưu.';
@@ -33,8 +33,10 @@
         return getNormalizeKey(sessionStorage.NOTE_PASS)
     }
     function normalizeKey(e) {
-        for (; e.length < 16;) e = "0" + e;
-        return e = e.substr(0, 16)
+        if(e != null){
+            for (; e.length < 16;) e = "0" + e;
+            return e = e.substr(0, 16)
+        }
     }
     function getNormalizeKey(e) {
         return aesjs.utils.utf8.toBytes(e)
@@ -67,7 +69,8 @@
                     if (textvnApi.status == 'success'){
                         $(".textarea").val(textvnApi.message);
                         $(".view_count").html(textvnApi.views);
-                    } else if(sessionStorage.getItem(window.location.pathname) == noteEncrypt(window.location.pathname, sessionStorage.getItem("noteData" + window.location.pathname))){
+                    } else if(sessionStorage.getItem(window.location.pathname)){
+                    if(sessionStorage.getItem(window.location.pathname) == noteEncrypt(window.location.pathname, sessionStorage.getItem("noteData" + window.location.pathname))){
                         $.get('https://api.rqn9.com/data/1.0/textvn/' + RQN9Api + tabLink + '&password=' + sessionStorage.getItem(window.location.pathname), function(data) {
                                     var textvnApi = jQuery.parseJSON(data).response;
                                     if(textvnApi.status == 'correct_password'){
@@ -75,9 +78,10 @@
                                         $(".view_count").html(textvnApi.views);
                                     }
                             });
+                    }
                     } else {
                         var isBookPrivate = $("#makeBookPrivate").is(":checked");
-                        alertify.prompt('Nhập mật khẩu', '123', '321', function(evt, value) {
+                        alertify.prompt('Nhập mật khẩu', 'Nhập mật khẩu để mở khóa tab', '', function(evt, value) {
                             var noteData = value;
                             sessionStorage.setItem("noteData" + window.location.pathname, value);
                             noteData = noteEncrypt(window.location.pathname, noteData);
@@ -115,6 +119,7 @@
         });
         function Tabsave(RQN9Api){
             var tabdata = $('.textarea').val();
+            if(sessionStorage.getItem(window.location.pathname)){
                     if(sessionStorage.getItem(window.location.pathname) == noteEncrypt(window.location.pathname, sessionStorage.getItem("noteData" + window.location.pathname))){
                         $.get('https://api.rqn9.com/data/1.0/textvn/' + RQN9Api + tabLink + '&password=' + sessionStorage.getItem(window.location.pathname) + '&data=' + encodeURI(tabdata), function(data) {
                                     var textvnApi = jQuery.parseJSON(data).response;
@@ -122,6 +127,7 @@
                                         $('.updated').addClass('color');
                                     }
                             });
+                        }
                     } else {
                             $.get('https://api.rqn9.com/data/1.0/textvn/' + RQN9Api + tabLink + '&data=' + encodeURI(tabdata), function(data) {
                                 var textvnApi = jQuery.parseJSON(data).response;

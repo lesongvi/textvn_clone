@@ -2,6 +2,7 @@
     var RQN9Api = 'YOUR RQN9 TOKEN'; //Create your RQN9 token: https://rqn9.com/developers
     var Webpagetitle = 'Source code'; //Your webpage title
     document.title = window.location.hostname + ' / ' + window.location.pathname.replace('/','') + ' | ' + Webpagetitle;
+    var url = new URL(window.location);
     function makeid(length = 8) {
        var result           = '';
        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -38,11 +39,15 @@
                 if (textvnApi.status == 'success'){
                     $(".textarea").val(textvnApi.message);
                 } else {
-                    alert('Hiện tính năng này đang được phát triển, vui lòng quay lại sau.');
-                    window.location.href = window.location.protocol + '//' + window.location.hostname;
+                    alertify.confirm("Hiện tính năng này đang được phát triển, vui lòng quay lại sau.", function(){
+                        window.location.href = window.location.protocol + '//' + window.location.hostname;
+                    }).set({labels:{ok:'OK'}});
                 }
             }).fail(function() {
-                alert('Vui lòng kiểm tra lại thông tin giá trị token RQN9Api trong tại đường dẫn /static/arrow.js.');
+                alertify.alert()
+                  .setting({
+                    'message': 'Vui lòng kiểm tra lại thông tin giá trị token RQN9Api trong tại đường dẫn /static/arrow.js'
+                  }).show();
             });
         $('.textarea').keydown(function(){
                clearTimeout(timer); 
@@ -57,8 +62,11 @@
             $.get('https://api.rqn9.com/data/1.0/textvn/' + RQN9Api + tabLink + '&data=' + encodeURI(tabdata), function(data) {
                 var textvnApi = jQuery.parseJSON(data).response;
                 if (textvnApi.status == 'error'||textvnApi.message == 'password protected'){
-                        alert('Đã có lỗi xảy ra, dữ liệu của bạn không được lưu.');
-                }
+                        alertify.alert()
+                          .setting({
+                            'message': 'Đã có lỗi xảy ra, dữ liệu của bạn không được lưu.'
+                          }).show();
+                            }
                 $('.updated').addClass('color');
             });
         }

@@ -1,7 +1,8 @@
     var tabLink = window.location.pathname;
-    var RQN9Api = 'YOUR RQN9 TOKEN'; //Create your RQN9 token: https://rqn9.com/developers
+    var RQN9Api = '38b1c18f052c4878b6443a0fead0bd9e'; //Create your RQN9 token: https://rqn9.com/developers
     var Webpagetitle = 'Source code'; //Your webpage title
     tokenUnderfined = 'Vui lòng kiểm tra lại thông tin giá trị token RQN9Api trong tại đường dẫn /static/arrow.js';
+    somethingWrong = 'Đã có lỗi xảy ra, dữ liệu của bạn không được lưu.';
     document.title = window.location.hostname + ' / ' + window.location.pathname.replace('/','') + ' | ' + Webpagetitle;
     var url = new URL(window.location);
     function makeid(length = 8) {
@@ -17,14 +18,39 @@
             var pattern = new RegExp('(([a-z\\d]([a-z\\d-]*[a-z\\d])*))');
             return pattern.test(Tab);
     }
+    function noteEncrypt(e, t) {
+        var o = getNoteKey();
+        void 0 !== t && (o = getNormalizeKey(normalizeKey(t)));
+        var s = aesjs.utils.utf8.toBytes(e),
+            n = new aesjs.ModeOfOperation.ctr(o, new aesjs.Counter(5)).encrypt(s),
+            r = aesjs.utils.hex.fromBytes(n);
+        return r
+    }
+    function setNoteKey(e) {
+        e = normalizeKey(e), sessionStorage.NOTE_PASS = e
+    }
+    function getNoteKey() {
+        return getNormalizeKey(sessionStorage.NOTE_PASS)
+    }
+    function normalizeKey(e) {
+        for (; e.length < 16;) e = "0" + e;
+        return e = e.substr(0, 16)
+    }
+    function getNormalizeKey(e) {
+        return aesjs.utils.utf8.toBytes(e)
+    }
     setTimeout(function() {
         if(!validLink(tabLink)){
             window.location.href = window.location.protocol + '//' + window.location.hostname + "/" + makeid();
         }
     }, 500);
     setTimeout(function() {
-        var e = (t = $(".textarea")).val().match(/\S+/g);
-        $(".word_count").html(e.length);
+        try {
+            var e = (t = $(".textarea")).val().match(/\S+/g);
+            $(".word_count").html(e.length);
+        } catch (err){
+            //
+        };
     }, 2e3);
     $(document).ready(function() {
         $(window).on("load resize", function() {
@@ -41,10 +67,32 @@
                     if (textvnApi.status == 'success'){
                         $(".textarea").val(textvnApi.message);
                         $(".view_count").html(textvnApi.views);
+                    } else if(sessionStorage.getItem(window.location.pathname) == noteEncrypt(window.location.pathname, sessionStorage.getItem("noteData" + window.location.pathname))){
+                        $.get('https://api.rqn9.com/data/1.0/textvn/' + RQN9Api + tabLink + '&password=' + sessionStorage.getItem(window.location.pathname), function(data) {
+                                    var textvnApi = jQuery.parseJSON(data).response;
+                                    if(textvnApi.status == 'correct_password'){
+                                        $(".textarea").val(textvnApi.message);
+                                        $(".view_count").html(textvnApi.views);
+                                    }
+                            });
                     } else {
-                        alertify.confirm("Hiện tính năng này đang được phát triển, vui lòng quay lại sau.", function(){
-                            window.location.href = window.location.protocol + '//' + window.location.hostname;
-                        }).set({labels:{ok:'OK'}});
+                        var isBookPrivate = $("#makeBookPrivate").is(":checked");
+                        alertify.prompt('Nhập mật khẩu', '123', '321', function(evt, value) {
+                            var noteData = value;
+                            sessionStorage.setItem("noteData" + window.location.pathname, value);
+                            noteData = noteEncrypt(window.location.pathname, noteData);
+                            $.get('https://api.rqn9.com/data/1.0/textvn/' + RQN9Api + tabLink + '&password=' + noteData, function(data) {
+                                    var textvnApi = jQuery.parseJSON(data).response;
+                                    if(textvnApi.status == 'correct_password'){
+                                        alertify.success('Đúng mật khẩu');
+                                        $(".textarea").val(textvnApi.message);
+                                        $(".view_count").html(textvnApi.views);
+                                        sessionStorage.setItem(window.location.pathname, noteData);
+                                    } else {
+                                        alertify.error('Sai mật khẩu');
+                                    }
+                            });
+                        }, function() { alertify.error('Cancel') });
                     }
                 } catch(err) {
                     alertify.alert()
@@ -66,18 +114,26 @@
               $('.updated').removeClass('color');
         });
         function Tabsave(RQN9Api){
-            console.log($('.textarea').val());
             var tabdata = $('.textarea').val();
-            $.get('https://api.rqn9.com/data/1.0/textvn/' + RQN9Api + tabLink + '&data=' + encodeURI(tabdata), function(data) {
-                var textvnApi = jQuery.parseJSON(data).response;
-                if (textvnApi.status == 'error'||textvnApi.message == 'password protected'){
-                        alertify.alert()
-                          .setting({
-                            'message': 'Đã có lỗi xảy ra, dữ liệu của bạn không được lưu.'
-                          }).show();
-                            }
-                $('.updated').addClass('color');
-            });
+                    if(sessionStorage.getItem(window.location.pathname) == noteEncrypt(window.location.pathname, sessionStorage.getItem("noteData" + window.location.pathname))){
+                        $.get('https://api.rqn9.com/data/1.0/textvn/' + RQN9Api + tabLink + '&password=' + sessionStorage.getItem(window.location.pathname) + '&data=' + encodeURI(tabdata), function(data) {
+                                    var textvnApi = jQuery.parseJSON(data).response;
+                                    if(textvnApi.status == 'correct_password'){
+                                        $('.updated').addClass('color');
+                                    }
+                            });
+                    } else {
+                            $.get('https://api.rqn9.com/data/1.0/textvn/' + RQN9Api + tabLink + '&data=' + encodeURI(tabdata), function(data) {
+                                var textvnApi = jQuery.parseJSON(data).response;
+                                if (textvnApi.status == 'error'||textvnApi.message == 'password protected'){
+                                        alertify.alert()
+                                          .setting({
+                                            'message': somethingWrong
+                                          }).show();
+                                    }
+                                $('.updated').addClass('color');
+                            });
+                    }
         }
         function copyToClipboard(text) {
             var $temp = $("<input>");

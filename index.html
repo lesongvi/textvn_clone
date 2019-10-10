@@ -19,6 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aes-js/3.1.2/index.js"></script>
 </head>
 <body>
     <div class="wrap">
@@ -28,6 +29,8 @@
     <div class="fl-right">
         <div class="options">
             <a href="/" class="menu-item" title="Mở tab mới"> <i class="ion-plus"></i> </a>
+            <a href="javascript:void(0)" class="menu-item" id="locker" title="Authenthication"> <i class="ion-unlocked"></i> </a>
+            <a href="javascript:void(0)" class="menu-item" id="newTab" title="Tạo tab mới"> <i class="ion-unlocked"></i> </a>
         </div>
     </div>
     <div class="clear"></div>
@@ -53,7 +56,7 @@
                 </div>
                 <div id="note-tab-add" class="note-tab-add" style="top: 0px; right: 0px;"> <i class="fa fa-plus"></i> </div>
             </div>
-            <textarea id="note-data" class="textarea" placeholder="" style="font-size: 15px; height: 293.6px; font-family: Arial, Helvetica, sans-serif;" allow-tab="" open-url="" character-count=""> </textarea>
+            <textarea id="note-data" class="textarea" placeholder="" style="font-size: 15px; height: 293.6px; font-family: Arial, Helvetica, sans-serif;" allow-tab="" open-url="" character-count="" disabled=""> </textarea>
         <div class="footer">
     <button class="share-copy share-url" title="Chép liên kết chia sẽ" id="share-link"><span><i class="ion-link"></i> Chia sẽ</span> </button>
 </div>

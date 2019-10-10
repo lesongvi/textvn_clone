@@ -20,6 +20,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
     var tabLink = window.location.pathname;
+    var RQN9Api = '38b1c18f052c4878b6443a0fead0bd9e';
     document.title = window.location.hostname;
     function makeid(length = 8) {
        var result           = '';
@@ -52,7 +53,7 @@
             })
         });
         var timer = null;
-        $.get( 'https://api.rqn9.com/data/1.0/textvn/38b1c18f052c4878b6443a0fead0bd9e' + tabLink, function(data) {
+        $.get( 'https://api.rqn9.com/data/1.0/textvn/' + RQN9Api + tabLink, function(data) {
                 var textvnApi = jQuery.parseJSON(data).response;
                 if (textvnApi.status == 'success'){
                     $(".textarea").val(textvnApi.message);
@@ -63,15 +64,15 @@
             });
         $('.textarea').keydown(function(){
                clearTimeout(timer); 
-               timer = setTimeout(Tabsave, 1000)
+               timer = setTimeout(Tabsave(RQN9Api), 1000)
         });
         $('.textarea').focus(function() {
               $('.updated').removeClass('color');
         });
-        function Tabsave(){
+        function Tabsave(RQN9Api){
             console.log($('.textarea').val());
             var tabdata = $('.textarea').val();
-            $.get('https://api.rqn9.com/data/1.0/textvn/38b1c18f052c4878b6443a0fead0bd9e' + tabLink + '&data=' + encodeURI(tabdata), function(data) {
+            $.get('https://api.rqn9.com/data/1.0/textvn/' + RQN9Api + tabLink + '&data=' + encodeURI(tabdata), function(data) {
                 var textvnApi = jQuery.parseJSON(data).response;
                 if (textvnApi.status == 'error'||textvnApi.message == 'password protected'){
                         alert('Đã có lỗi xảy ra, dữ liệu của bạn không được lưu.');

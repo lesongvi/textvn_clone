@@ -1,6 +1,7 @@
     var tabLink = window.location.pathname;
     var RQN9Api = 'YOUR RQN9 TOKEN'; //Create your RQN9 token: https://rqn9.com/developers
     var Webpagetitle = 'Source code'; //Your webpage title
+    tokenUnderfined = 'Vui lòng kiểm tra lại thông tin giá trị token RQN9Api trong tại đường dẫn /static/arrow.js';
     document.title = window.location.hostname + ' / ' + window.location.pathname.replace('/','') + ' | ' + Webpagetitle;
     var url = new URL(window.location);
     function makeid(length = 8) {
@@ -35,19 +36,26 @@
         });
         var timer = null;
         $.get( 'https://api.rqn9.com/data/1.0/textvn/' + RQN9Api + tabLink, function(data) {
-                var textvnApi = jQuery.parseJSON(data).response;
-                if (textvnApi.status == 'success'){
-                    $(".textarea").val(textvnApi.message);
-                    $(".view_count").html(textvnApi.views);
-                } else {
-                    alertify.confirm("Hiện tính năng này đang được phát triển, vui lòng quay lại sau.", function(){
-                        window.location.href = window.location.protocol + '//' + window.location.hostname;
-                    }).set({labels:{ok:'OK'}});
+                try {
+                    var textvnApi = jQuery.parseJSON(data).response;
+                    if (textvnApi.status == 'success'){
+                        $(".textarea").val(textvnApi.message);
+                        $(".view_count").html(textvnApi.views);
+                    } else {
+                        alertify.confirm("Hiện tính năng này đang được phát triển, vui lòng quay lại sau.", function(){
+                            window.location.href = window.location.protocol + '//' + window.location.hostname;
+                        }).set({labels:{ok:'OK'}});
+                    }
+                } catch(err) {
+                    alertify.alert()
+                  .setting({
+                    'message': tokenUnderfined
+                  }).show();
                 }
             }).fail(function() {
                 alertify.alert()
                   .setting({
-                    'message': 'Vui lòng kiểm tra lại thông tin giá trị token RQN9Api trong tại đường dẫn /static/arrow.js'
+                    'message': tokenUnderfined
                   }).show();
             });
         $('.textarea').keydown(function(){

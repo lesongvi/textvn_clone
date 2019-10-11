@@ -158,13 +158,28 @@
         'message': tokenUnderfined
        }).show();
      });
-     $('.textarea').keydown(function() {
-      clearTimeout(timer);
-      timer = setTimeout(Tabsave(RQN9Api), 1000)
-     });
-     $('.textarea').focus(function() {
+     $('.textarea').on('keyup', funct(function() {
+      Tabsave(RQN9Api)
+     }, 500));
+     $('.textarea').on('keydown', funct(function() {
       $('.updated').removeClass('color');
-     });
+     }));
+
+     function funct(func, wait, immediate) {
+      var timeout;
+      return function() {
+       var context = this,
+        args = arguments;
+       var later = function() {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+       };
+       var callNow = immediate && !timeout;
+       clearTimeout(timeout);
+       timeout = setTimeout(later, wait);
+       if (callNow) func.apply(context, args);
+      };
+     };
 
      function PasswordEnter(e, g) {
       alertify.prompt('Nhập mật khẩu', 'Nhập mật khẩu để mở khóa tab', '', function(evt, value) {

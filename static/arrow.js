@@ -1,4 +1,4 @@
-var tabLink = window.location.pathname,
+var tabLink = window.location.pathname.replace('/',''),
     RQN9Api = "YOUR RQN9 TOKEN", // Your RQN9 token, generate: https://rqn9.com/developers
     Webpagetitle = "Source code"; //Your webpage tile
 tokenUnderfined = "Vui lòng kiểm tra lại thông tin giá trị token RQN9Api trong tại đường dẫn /static/arrow.js", somethingWrong = "Đã có lỗi xảy ra, dữ liệu của bạn không được lưu.", document.title = window.location.hostname + " / " + window.location.pathname.replace("/", "") + " | " + Webpagetitle;
@@ -87,7 +87,7 @@ function randLink() {
     function t(e, t) {
         alertify.prompt("Nhập mật khẩu", "Nhập mật khẩu để mở khóa tab", "", function(o, n) {
             var a = n;
-            sessionStorage.setItem("noteData" + window.location.pathname, n), a = noteEncrypt(window.location.pathname, a), $.get("https://api.rqn9.com/data/1.0/textvn/" + e + t + "&password=" + a, function(e) {
+            sessionStorage.setItem("noteData" + window.location.pathname, n), a = noteEncrypt(window.location.pathname, a), $.post("https://api.rqn9.com/data/1.0/textvn/", 'token=' + e + '&slug=' + t + '&password=' + a, function(e) {
                 var t = jQuery.parseJSON(e).response;
                 "correct_password" == t.status && "wrong password" != t.message ? (alertify.success("Đúng mật khẩu"), icon = $("#locker").find("i"), icon.addClass("ion-locked").removeClass("ion-unlocked"), console.log(icon), $(".textarea").val(t.message), null == t.views ? $(".view_count").html(0) : $(".view_count").html(t.views), sessionStorage.setItem(window.location.pathname, a), $(".textarea").prop("disabled", !1)) : alertify.error("Sai mật khẩu")
             })
@@ -104,7 +104,7 @@ function randLink() {
         }, function() {
             alertify.error("Đã hủy")
         })
-    }), $.get("https://api.rqn9.com/data/1.0/textvn/" + RQN9Api + tabLink, function(e) {
+    }), $.post("https://api.rqn9.com/data/1.0/textvn/", 'token=' + RQN9Api + '&slug=' + tabLink, function(e) {
         try {
             var o = jQuery.parseJSON(e).response;
             if ("success" == o.status) {
@@ -113,7 +113,7 @@ function randLink() {
                 null == o.views ? $(".view_count").html(0) : $(".view_count").html(o.views), $("#locker").click(function() {
                     alertify.prompt("Nhập mật khẩu", "Nhập mật khẩu để khóa tab", "", function(e, t) {
                         var o = t;
-                        sessionStorage.setItem("noteData" + window.location.pathname, t), o = noteEncrypt(window.location.pathname, o), $.get("https://api.rqn9.com/data/1.0/textvn/" + RQN9Api + tabLink + "&password=" + o + "&data=" + encodeURIComponent(n), function(e) {
+                        sessionStorage.setItem("noteData" + window.location.pathname, t), o = noteEncrypt(window.location.pathname, o), $.post("https://api.rqn9.com/data/1.0/textvn/", 'token=' + RQN9Api + '&slug=' + tabLink + '&password=' + o + '&data=' + encodeURIComponent(n), function(e) {
                             var t = jQuery.parseJSON(e).response;
                               $.ajax(window.location).done(function(e) {
                                 var t = document.open("text/html", "replace");
@@ -128,7 +128,7 @@ function randLink() {
                 })
             } else sessionStorage.getItem(window.location.pathname) ? sessionStorage.getItem(window.location.pathname) == noteEncrypt(window.location.pathname, sessionStorage.getItem("noteData" + window.location.pathname)) && ($("#locker").click(function() {
                 $(".textarea").prop("disabled", !0).val(""), icon = $("#locker").find("i"), icon.addClass("ion-unlocked").removeClass("ion-locked"), sessionStorage.removeItem("noteData"), sessionStorage.removeItem(window.location.pathname), t(RQN9Api, tabLink)
-            }), $.get("https://api.rqn9.com/data/1.0/textvn/" + RQN9Api + tabLink + "&password=" + sessionStorage.getItem(window.location.pathname), function(e) {
+            }), $.post("https://api.rqn9.com/data/1.0/textvn/", 'token=' + RQN9Api + '&slug=' + tabLink + '&password=' + sessionStorage.getItem(window.location.pathname), function(e) {
                 var t = jQuery.parseJSON(e).response;
                 "correct_password" == t.status && ($(".textarea").val(t.message), $(".view_count").html(t.views), icon = $("#locker").find("i"), icon.addClass("ion-locked").removeClass("ion-unlocked"))
             })) : ($("#locker").click(function() {
@@ -146,10 +146,10 @@ function randLink() {
     }), $(".textarea").on("keyup", e(function() {
         ! function(e) {
             var t = $(".textarea").val();
-            sessionStorage.getItem(window.location.pathname) ? sessionStorage.getItem(window.location.pathname) == noteEncrypt(window.location.pathname, sessionStorage.getItem("noteData" + window.location.pathname)) && $.get("https://api.rqn9.com/data/1.0/textvn/" + e + tabLink + "&password=" + sessionStorage.getItem(window.location.pathname) + "&data=" + encodeURIComponent(t), function(e) {
+            sessionStorage.getItem(window.location.pathname) ? sessionStorage.getItem(window.location.pathname) == noteEncrypt(window.location.pathname, sessionStorage.getItem("noteData" + window.location.pathname)) && $.post("https://api.rqn9.com/data/1.0/textvn/", 'token=' + e + '&slug=' + tabLink + '&password=' + sessionStorage.getItem(window.location.pathname) + '&data=' + encodeURIComponent(t), function(e) {
                 var t = jQuery.parseJSON(e).response;
                 "correct_password" == t.status && $(".updated").find(".autosaved").remove(), $(".updated").addClass("color").append(' <span class="autosaved" style="font-size:11px;">Đã lưu!</span>')
-            }) : $.get("https://api.rqn9.com/data/1.0/textvn/" + e + tabLink + "&data=" + encodeURIComponent(t), function(e) {
+            }) : $.post("https://api.rqn9.com/data/1.0/textvn/", 'token=' + e + '&slug=' + tabLink + '&data=' + encodeURIComponent(t), function(e) {
                 var t = jQuery.parseJSON(e).response;
                 "error" != t.status && "password protected" != t.message || alertify.alert().setting({
                     message: somethingWrong

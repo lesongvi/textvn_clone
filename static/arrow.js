@@ -1,6 +1,6 @@
 var tabLink = window.location.pathname,
-    RQN9Api = "YOUR RQN9 TOKEN", //Generate RQN9 token: https://rqn9.com/developers
-    Webpagetitle = "Source code"; //Your web page title
+    RQN9Api = "YOUR RQN9 TOKEN", // Your RQN9 token, generate: https://rqn9.com/developers
+    Webpagetitle = "Source code"; //Your webpage tile
 tokenUnderfined = "Vui lòng kiểm tra lại thông tin giá trị token RQN9Api trong tại đường dẫn /static/arrow.js", somethingWrong = "Đã có lỗi xảy ra, dữ liệu của bạn không được lưu.", document.title = window.location.hostname + " / " + window.location.pathname.replace("/", "") + " | " + Webpagetitle;
 var url = new URL(window.location);
 
@@ -145,12 +145,12 @@ function randLink() {
             var t = $(".textarea").val();
             sessionStorage.getItem(window.location.pathname) ? sessionStorage.getItem(window.location.pathname) == noteEncrypt(window.location.pathname, sessionStorage.getItem("noteData" + window.location.pathname)) && $.get("https://api.rqn9.com/data/1.0/textvn/" + e + tabLink + "&password=" + sessionStorage.getItem(window.location.pathname) + "&data=" + encodeURIComponent(t), function(e) {
                 var t = jQuery.parseJSON(e).response;
-                "correct_password" == t.status && $(".updated").addClass("color").append(' <span class="autosaved" style="font-size:11px;">Đã lưu!</span>')
+                "correct_password" == t.status && $(".updated").find(".autosaved").remove(), $(".updated").addClass("color").append(' <span class="autosaved" style="font-size:11px;">Đã lưu!</span>')
             }) : $.get("https://api.rqn9.com/data/1.0/textvn/" + e + tabLink + "&data=" + encodeURIComponent(t), function(e) {
                 var t = jQuery.parseJSON(e).response;
                 "error" != t.status && "password protected" != t.message || alertify.alert().setting({
                     message: somethingWrong
-                }).show(), $(".updated").addClass("color").append(' <span class="autosaved" style="font-size:11px;">Đã lưu!</span>')
+                }).show(), $(".updated").find(".autosaved").remove(), $(".updated").addClass("color").append(' <span class="autosaved" style="font-size:11px;">Đã lưu!</span>')
             })
         }(RQN9Api)
     }, 500)), $(".textarea").on("keydown", e(function() {

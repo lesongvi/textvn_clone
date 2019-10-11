@@ -31,6 +31,8 @@
             <a href="javascript:void(0)" class="menu-item" id="randTab" title="Mở tab mới"> <i class="ion-plus"></i> </a>
             <a href="javascript:void(0)" class="menu-item" id="locker" title="Authenthication"> <i class="ion-unlocked"></i> </a>
             <a href="javascript:void(0)" class="menu-item" id="newTab" title="Tạo tab mới"> <i class="ion-edit"></i> </a>
+            <a href="javascript:void(0)" onclick="spell_check();"><span class="spell-check">S</span></a>
+            <a href="javascript:void(0)" onclick="monospace();"><span class="monospace">M</span></a>
         </div>
     </div>
     <div class="clear"></div>
@@ -56,7 +58,7 @@
                 </div>
                 <div id="note-tab-add" class="note-tab-add" style="top: 0px; right: 0px;"> <i class="fa fa-plus"></i> </div>
             </div>
-            <textarea id="note-data" class="textarea" placeholder="" style="font-size: 15px; height: 293.6px; font-family: Arial, Helvetica, sans-serif;" allow-tab="" open-url="" character-count=""> </textarea>
+            <textarea id="note-data" class="textarea" placeholder="" style="font-size: 15px; height: 293.6px; font-family: Arial, Helvetica, sans-serif;" allow-tab="" open-url="" character-count="" spellcheck="false"> </textarea>
         <div class="footer">
     <input type="text" class="main-url share-url" id="tabLinkinput" onclick="this.select();" readonly="readonly"><br>
     <button class="share-copy share-url" title="Chép liên kết chia sẽ" id="share-link"><span><i class="ion-link"></i> Chia sẽ</span> </button>

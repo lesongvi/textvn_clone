@@ -157,7 +157,8 @@ function randLink() {
             })
         }(RQN9Api)
     }, 500)), $(".textarea").on("keydown", e(function() {
-        $(".updated").removeClass("color"), $(".updated").find(".autosaved").remove()
+        var e = (t = $(".textarea")).val().match(/\S+/g);
+        $(".word_count").html(e.length), $(".updated").removeClass("color"), $(".updated").find(".autosaved").remove()
     })), $("#share-link").click(function() {
         var e, t;
         e = window.location.protocol + "//" + window.location.hostname + window.location.pathname, t = $("<input>"), $("body").append(t), t.val(e).select(), document.execCommand("copy"), t.remove()

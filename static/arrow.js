@@ -74,6 +74,7 @@
       })
      });
      var timer = null;
+     $('#tabLinkinput').val(url);
      $('#randTab').click(function() {
       randLink();
      });

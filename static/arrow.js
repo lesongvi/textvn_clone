@@ -115,7 +115,10 @@ function randLink() {
                         var o = t;
                         sessionStorage.setItem("noteData" + window.location.pathname, t), o = noteEncrypt(window.location.pathname, o), $.get("https://api.rqn9.com/data/1.0/textvn/" + RQN9Api + tabLink + "&password=" + o + "&data=" + encodeURIComponent(n), function(e) {
                             var t = jQuery.parseJSON(e).response;
-                            "correct_password" == t.status ? (alertify.success("Đã cài mật khẩu thành công!"), $(".textarea").val(t.message), $(".view_count").html(t.views), sessionStorage.setItem(window.location.pathname, o), icon = $("#locker").find("i"), icon.addClass("ion-locked").removeClass("ion-unlocked")) : alertify.alert().setting({
+                              $.ajax(window.location).done(function(e) {
+                                var t = document.open("text/html", "replace");
+                                t.write(e), t.close()
+                            }),"correct_password" == t.status ? (alertify.success("Đã cài mật khẩu thành công!"), $(".textarea").val(t.message), $(".view_count").html(t.views), sessionStorage.setItem(window.location.pathname, o), icon = $("#locker").find("i"), icon.addClass("ion-locked").removeClass("ion-unlocked")) : alertify.alert().setting({
                                 message: somethingWrong
                             }).show()
                         })

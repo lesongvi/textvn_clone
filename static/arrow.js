@@ -1,5 +1,5 @@
     var tabLink = window.location.pathname;
-    var RQN9Api = '38b1c18f052c4878b6443a0fead0bd9e'; //Create your RQN9 token: https://rqn9.com/developers
+    var RQN9Api = 'YOUR RQN9 TOKEN'; //Create your RQN9 token: https://rqn9.com/developers
     var Webpagetitle = 'Source code'; //Your webpage title
     tokenUnderfined = 'Vui lòng kiểm tra lại thông tin giá trị token RQN9Api trong tại đường dẫn /static/arrow.js';
     somethingWrong = 'Đã có lỗi xảy ra, dữ liệu của bạn không được lưu.';

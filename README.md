@@ -1,5 +1,5 @@
 # Online demo
-- Origin website: https://highlands.cf
+- Origin website: https://notevn.com
 - Source code demo: http://cuvii.xyz
 # textvn_clone
 Đây là source code miễn phí lưu note không bắt buộc database.

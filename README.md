@@ -1,6 +1,6 @@
 # Online demo
-- Origin website: https://notevn.com
-- Source code demo: http://cuvii.xyz
+- Origin website: [notevn.com](https://notevn.com)
+- Source code demo: ~~cuvii.xyz~~
 # textvn_clone
 Đây là source code miễn phí lưu note không bắt buộc database.
 # Cần thiết
@@ -11,4 +11,4 @@ Token RQN9, tạo tại đường dẫn: [RQN9 Developers](https://rqn9.com/deve
 Vui lòng chỉnh sửa các thông số cần thiết tại file arrow.js nằm tại đường dẫn /static/arrow.js.
 # todo
 - Không xem được tab bị khóa cấp 3 (khóa ẩn) - Tab tại textvn hoặc highlands nếu được đặt mật khẩu và tích ẩn thì sẽ không xem được tại clone source.
-- Trình soạn thảo văn bản của [highlands.cf](https://highlands.cf)
+- Trình soạn thảo văn bản của [notevn.com](https://notevn.com)

@@ -1,3 +1,6 @@
+```
+Đây không phải là source code chính thức của Textvn mà chỉ là một phiên bản clone sử dụng API limited của RQN9
+```
 # Online demo
 - Origin website: [notevn.com](https://notevn.com)
 - Source code demo: ~~cuvii.xyz~~

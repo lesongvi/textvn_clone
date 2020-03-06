@@ -5,7 +5,7 @@
 - Origin website: [notevn.com](https://notevn.com)
 - Source code demo: ~~cuvii.xyz~~
 # textvn_clone
-Đây là source code miễn phí lưu note không bắt buộc database.
+Đây là source code miễn phí lưu note không bắt buộc database. Giao diện giống Notevn hơn là Textvn.
 # Cần thiết
 Token RQN9, tạo tại đường dẫn: [RQN9 Developers](https://rqn9.com/developers)
 # Sử dụng
